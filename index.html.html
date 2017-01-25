@@ -1,0 +1,234 @@
+<html>
+<head>
+  <title>Nepal</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css"/>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+  <script src="jquery-3.1.1.min.js"></script>
+  <script src="leaflet.ajax.min.js"></script>
+  <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
+  <script src="L.Control.ZoomMin.js"></script>
+  <link rel="stylesheet" href="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/master/leaflet.magnifyingglass.css" />
+  <script src="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/leaflet-0.7.2/leaflet.magnifyingglass.js"></script>
+   <link rel="stylesheet" type="text/css" href="imgslider.min.css">
+
+    <script type="text/javascript" src="imgslider.min.js"></script>
+  
+	<style>
+
+	/* Map Styles and Dimensions */ 
+	
+	.map{ height: 100%;
+		width: 100%}
+				
+		#map {
+		margin: 0 auto;
+		text-align: left;
+		width: 900px;
+		height: 700px;
+	}
+	
+	.slider{
+	width: 600px;
+	height:600px;
+	margin: 0 auto}
+	
+	
+	/* Remove border of map */
+	
+	.leaflet-container {
+		background-color:rgba(255,0,0,0.0);
+	}
+	.leaflet-touch .leaflet-bar {
+		border: none;
+	}
+	<!-- .h1 { -->
+	<!-- font-family: Sans Serif; -->
+	<!-- margin: 0 auto;} -->
+	h1   {
+	text-align: center;
+	font-family: Sans-Serif;}
+	
+	.info {
+		padding: 6px 8px;
+		font: 14px/16px Arial, Helvetica, sans-serif;
+		background: white;
+		background: rgba(255,255,255,0.8);
+		/* box-shadow: 0 0 15px rgba(0,0,0,0.2); */
+		border-radius: 5px;
+	}
+	.info h4 {
+		margin: 0 0 5px;
+		color: #777;
+	}
+
+</style>
+
+
+</head>
+
+
+<body>
+<h1>
+Hover Over Map
+</h1>
+
+<div id="map"></div>
+
+<script>
+
+		// initialize the map + minimum zoom if just focusing on one country
+		var map = L.map('map',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false}).setView([23.814602, 90.413961], 12);
+		
+		// Add zoom to extent button (see stylesheet and .js file in header)
+		<!-- map.addControl(new L.Control.ZoomMin()) -->
+		
+		//Setting Maximum bounds for zooming and panning (Top left and bottom right from google maps)
+		var bounds = L.latLngBounds([[26.548387, 89.144284], [20.580493, 92.103854]]);
+		map.setMaxBounds(bounds);
+		map.on('drag', function() {
+			map.panInsideBounds(bounds, { animate: false });
+		});
+		
+		
+		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
+		var geojsonLayer = new L.GeoJSON.AJAX("Bangladesh.json",{style:style
+												,smoothFactor: 0}).addTo(map); 
+		//onEachFeature:onEachFeature
+		// Adding GeoTiff
+		var	RasterBounds = new L.LatLngBounds(
+			new L.LatLng(26.64163201,88.00822613),
+			new L.LatLng(20.73330104,92.67489093));
+		
+		map.fitBounds(bounds);
+		var overlay = new L.ImageOverlay("Bangladesh4.png", RasterBounds);
+		
+		
+		
+		var magnifyingGlass = L.magnifyingGlass({
+		  layers: [overlay],
+		  zoomOffset: 0,
+		  radius: 100
+		}).addTo(map);
+		
+		
+		
+		
+		
+		
+		<!-- // Define Colourscheme and Variable to Symbolise -->
+		function getColor(tFGT_0) {
+			return tFGT_0 > 0.71 ? '#084594' :
+				   tFGT_0 > 0.53  ? '#2171b5' :
+				   tFGT_0 > 0.47  ? '#4292c6' :
+				   tFGT_0 > 0.41  ? '#6baed6' :
+				   tFGT_0 > 0.34   ? '#9ecae1':
+					'#9ecae1';}
+				   
+		<!-- } -->
+		// Define Style differences for when feature is hovered over
+		function style(feature) {
+			return {
+				fillColor: getColor(feature.properties.tFGT_0) ,
+				weight: 0,
+				opacity: 1,
+				color: 'black',
+				fillOpacity: 1
+			};
+		}
+
+
+		<!-- function highlightFeature(e) { -->
+			<!-- var layer = e.target; -->
+
+			<!-- layer.setStyle({ -->
+				<!-- weight: 2, -->
+				<!-- color: '#777', -->
+				<!-- dashArray: '', -->
+				<!-- fillOpacity: 0.7 -->
+			<!-- }); -->
+
+			<!-- if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) { -->
+				<!-- layer.bringToFront(); -->
+			//info.update(layer.feature.properties);	
+			<!-- } -->
+		<!-- } -->
+
+
+		<!-- function resetHighlight(e) { -->
+			<!-- geojsonLayer.resetStyle(e.target); -->
+		<!-- } -->
+
+		<!-- function zoomToFeature(e) { -->
+			<!-- map.fitBounds(e.target.getBounds()); -->
+		<!-- } -->
+		<!-- function resetHighlight(e) { -->
+			<!-- geojsonLayer.resetStyle(e.target); -->
+			<!-- info.update(); -->
+		<!-- } -->
+		<!-- function onEachFeature(feature, layer) { -->
+			<!-- layer.on({ -->
+				<!-- mouseover: highlightFeature, -->
+				<!-- mouseout: resetHighlight, -->
+				<!-- click: zoomToFeature -->
+			<!-- }); -->
+		<!-- } -->
+
+		var info = L.control();
+
+		<!-- info.onAdd = function (map) { -->
+			<!-- this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info" -->
+			<!-- this.update(); -->
+			<!-- return this._div; -->
+		<!-- }; -->
+
+		// Update the control based on feature properties passed
+		info.update = '<h4>Food Poverty Estimate</h4><p>';
+		
+
+		info.addTo(map);
+
+
+
+		//Remove attribution in bottom right
+	document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+
+
+</script>
+
+<div>
+<br/><br/><br/>
+
+<h1> Dakar - Before and After </h1>
+</div>
+
+<div class="slider">
+
+ <div class="slider responsive">
+
+  <div class="left image">
+
+    <img src="Dakar_without.png"/>
+
+  </div>
+
+  <div class="right image">
+
+    <img src="Dakar_PPI.png"/>
+
+  </div>
+
+</div>
+
+</div>
+
+
+
+
+
+
+</body>
+<script>
+$('.slider').slider({ instructionText:"Drag!" });
+</script>
+</html>
