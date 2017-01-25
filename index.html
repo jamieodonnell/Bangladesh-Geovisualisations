@@ -3,7 +3,7 @@
   <title>Visualisation Concepts</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
-  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
+   <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
   <script src="jquery-3.1.1.min.js"></script>
   <script src="leaflet.ajax.min.js"></script>
   <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
@@ -12,6 +12,7 @@
   <script src="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/leaflet-0.7.2/leaflet.magnifyingglass.js"></script>
   <link rel="stylesheet" type="text/css" href="imgslider.min.css">
   <script type="text/javascript" src="imgslider.min.js"></script>
+  <script type='text/javascript' src='js/jquery.tipsy.js'></script>
   
 	<style>
 
@@ -69,7 +70,25 @@
 		margin: 0 0 5px;
 		color: #777;
 	}
-
+	#displayYear{
+	  bottom: 0px;
+	  position: absolute;
+	  color: rgb(255, 255, 255);
+	  font-size: 35px;
+	  font-weight: bold;
+	  right: 170px;
+	  text-shadow: #000 2px 1px 4px;
+		font-family: 'Josefin Slab', serif;
+	}
+	.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    cursor:default;
+	}
 </style>
 
 
@@ -78,7 +97,7 @@
 
 <body>
 <h1>
-Hover Over Map
+Bangladesh - Magnifying Glass
 </h1>
 
 <div id="map"></div>
@@ -86,7 +105,7 @@ Hover Over Map
 <script>
 
 		// initialize the map + minimum zoom if just focusing on one country
-		var map = L.map('map',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false}).setView([23.814602, 90.413961], 12);
+		var map = L.map('map',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([23.814602, 90.413961], 12);
 		
 		// Add zoom to extent button (see stylesheet and .js file in header)
 		<!-- map.addControl(new L.Control.ZoomMin()) -->
@@ -118,10 +137,6 @@ Hover Over Map
 		  zoomOffset: 0,
 		  radius: 100
 		}).addTo(map);
-		
-		
-		
-		
 		
 		
 		<!-- // Define Colourscheme and Variable to Symbolise -->
@@ -179,7 +194,7 @@ Hover Over Map
 <script>
 
 		// initialize the Nepal + minimum zoom if just focusing on one country
-		var Nepal = L.map('Nepal',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false}).setView([28.5, 84.1], 7);
+		var Nepal = L.map('Nepal',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([28.5, 84.1], 7);
 		
 		// Add zoom to extent button (see stylesheet and .js file in header)
 		<!-- Nepal.addControl(new L.Control.ZoomMin()) -->
