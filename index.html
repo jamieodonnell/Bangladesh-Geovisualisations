@@ -1,37 +1,45 @@
 <html>
 <head>
-  <title>Nepal</title>
+  <title>Visualisation Concepts</title>
   <meta charset="utf-8" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+  <script src="http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js"></script>
   <script src="jquery-3.1.1.min.js"></script>
   <script src="leaflet.ajax.min.js"></script>
   <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
   <script src="L.Control.ZoomMin.js"></script>
   <link rel="stylesheet" href="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/master/leaflet.magnifyingglass.css" />
   <script src="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/leaflet-0.7.2/leaflet.magnifyingglass.js"></script>
-   <link rel="stylesheet" type="text/css" href="imgslider.min.css">
-
-    <script type="text/javascript" src="imgslider.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="imgslider.min.css">
+  <script type="text/javascript" src="imgslider.min.js"></script>
   
 	<style>
 
-	/* Map Styles and Dimensions */ 
-	
-	.map{ height: 100%;
-		width: 100%}
+	/* Map Styles and Dimensions http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js */ 
+
 				
-		#map {
-		margin: 0 auto;
-		text-align: left;
-		width: 900px;
-		height: 700px;
+	#map {
+	margin: 0 auto;
+	text-align: left;
+	width: 900px;
+	height: 700px;
 	}
 	
 	.slider{
-	width: 600px;
-	height:600px;
+	width: 500px;
+	height:500px;
 	margin: 0 auto}
+	
+
+	#Nepal {
+	margin: 0 auto;
+	text-align: left;
+	width: 800px;
+	height: 500px;
+	}
+	
+
+	
 	
 	
 	/* Remove border of map */
@@ -136,70 +144,12 @@ Hover Over Map
 				fillOpacity: 1
 			};
 		}
-
-
-		<!-- function highlightFeature(e) { -->
-			<!-- var layer = e.target; -->
-
-			<!-- layer.setStyle({ -->
-				<!-- weight: 2, -->
-				<!-- color: '#777', -->
-				<!-- dashArray: '', -->
-				<!-- fillOpacity: 0.7 -->
-			<!-- }); -->
-
-			<!-- if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) { -->
-				<!-- layer.bringToFront(); -->
-			//info.update(layer.feature.properties);	
-			<!-- } -->
-		<!-- } -->
-
-
-		<!-- function resetHighlight(e) { -->
-			<!-- geojsonLayer.resetStyle(e.target); -->
-		<!-- } -->
-
-		<!-- function zoomToFeature(e) { -->
-			<!-- map.fitBounds(e.target.getBounds()); -->
-		<!-- } -->
-		<!-- function resetHighlight(e) { -->
-			<!-- geojsonLayer.resetStyle(e.target); -->
-			<!-- info.update(); -->
-		<!-- } -->
-		<!-- function onEachFeature(feature, layer) { -->
-			<!-- layer.on({ -->
-				<!-- mouseover: highlightFeature, -->
-				<!-- mouseout: resetHighlight, -->
-				<!-- click: zoomToFeature -->
-			<!-- }); -->
-		<!-- } -->
-
-		var info = L.control();
-
-		<!-- info.onAdd = function (map) { -->
-			<!-- this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info" -->
-			<!-- this.update(); -->
-			<!-- return this._div; -->
-		<!-- }; -->
-
-		// Update the control based on feature properties passed
-		info.update = '<h4>Food Poverty Estimate</h4><p>';
-		
-
-		info.addTo(map);
-
-
-
-		//Remove attribution in bottom right
-	document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
-
-
 </script>
 
 <div>
 <br/><br/><br/>
 
-<h1> Dakar - Before and After </h1>
+<h1> Dhaka - Before and After </h1>
 </div>
 
 <div class="slider">
@@ -222,6 +172,113 @@ Hover Over Map
 
 </div>
 
+<div><br/><br/><br/></div>
+<h1> Nepal - Ilaka Food poverty </h1>
+<div id="Nepal"><br/></div>
+<div>
+<script>
+
+		// initialize the Nepal + minimum zoom if just focusing on one country
+		var Nepal = L.map('Nepal',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false}).setView([28.5, 84.1], 7);
+		
+		// Add zoom to extent button (see stylesheet and .js file in header)
+		<!-- Nepal.addControl(new L.Control.ZoomMin()) -->
+		
+		//Setting Maximum bounds for zooming and panning (Top left and bottom right from google Nepals)
+		var bounds = L.latLngBounds([[30.5, 79.81], [26.13, 88.34]]);
+		Nepal.setMaxBounds(bounds);
+		Nepal.on('drag', function() {
+			Nepal.panInsideBounds(bounds, { animate: false });
+		});
+		
+		
+		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
+		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("Nepal.json",{style:style_Nepal,
+												onEachFeature:onEachFeature,smoothFactor: 0}).addTo(Nepal); 
+		
+		// Define Colourscheme and Variable to Symbolise
+		function getColor_Nepal(P0) {
+			return P0 > 70 ? '#084594' :
+				   P0 > 60  ? '#2171b5' :
+				   P0 > 50  ? '#4292c6' :
+				   P0 > 40  ? '#6baed6' :
+				   P0 > 30   ? '#9ecae1' :
+				   P0 > 20   ? '#c6dbef' :
+				   P0 > 10   ? '#deebf7' :
+				   P0 > 0   ? '#d9d9d9' :
+							  '#b2df8a';
+				   
+		}
+		// Define Style differences for when feature is hovered over
+		function style_Nepal(feature) {
+			return {
+				fillColor: getColor_Nepal(feature.properties.P0),
+				weight: 0,
+				opacity: 1,
+				color: 'white',
+				fillOpacity: 1
+			};
+		}
+
+
+		function highlightFeature(e) {
+			var layer = e.target;
+
+			layer.setStyle({
+				weight: 2,
+				color: '#777',
+				dashArray: '',
+				fillOpacity: 0.7
+			});
+
+			if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+				layer.bringToFront();
+			info.update(layer.feature.properties);	
+			}
+		}
+
+
+		function resetHighlight(e) {
+			geojsonLayer_Nepal.resetStyle(e.target);
+		}
+
+		function zoomToFeature(e) {
+			Nepal.fitBounds(e.target.getBounds());
+		}
+		function resetHighlight(e) {
+			geojsonLayer_Nepal.resetStyle(e.target);
+			info.update();
+		}
+		function onEachFeature(feature, layer) {
+			layer.on({
+				mouseover: highlightFeature,
+				mouseout: resetHighlight,
+				click: zoomToFeature
+			});
+		}
+
+		var info = L.control({position: 'topright'});
+
+		info.onAdd = function (Nepal) {
+			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
+			this.update();
+			return this._div;
+		};
+
+		// Update the control based on feature properties passed
+		info.update = function (props) {
+			this._div.innerHTML = '<h4>Food Poverty Estimate</h4><p>' +  (props ?
+				'Ilaka ID ' + props.IlakaID + '</b><br /><p><b>' + props.P0 + '% Prevalence</b>'
+				: 'Hover over an Ilaka');
+		};
+
+		info.addTo(Nepal);
+
+
+
+</script>
+
+</div>
 
 
 
