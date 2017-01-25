@@ -12,11 +12,10 @@
   <script src="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/leaflet-0.7.2/leaflet.magnifyingglass.js"></script>
   <link rel="stylesheet" type="text/css" href="imgslider.min.css">
   <script type="text/javascript" src="imgslider.min.js"></script>
-  <script type='text/javascript' src='js/jquery.tipsy.js'></script>
   
 	<style>
 
-	/* Map Styles and Dimensions http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js */ 
+	/* Map Styles and Dimensions */ 
 
 				
 	#map {
@@ -60,7 +59,7 @@
 	
 	.info {
 		padding: 6px 8px;
-		font: 14px/16px Arial, Helvetica, sans-serif;
+		font: 14px/16px sans-serif;
 		background: white;
 		background: rgba(255,255,255,0.8);
 		/* box-shadow: 0 0 15px rgba(0,0,0,0.2); */
@@ -70,25 +69,7 @@
 		margin: 0 0 5px;
 		color: #777;
 	}
-	#displayYear{
-	  bottom: 0px;
-	  position: absolute;
-	  color: rgb(255, 255, 255);
-	  font-size: 35px;
-	  font-weight: bold;
-	  right: 170px;
-	  text-shadow: #000 2px 1px 4px;
-		font-family: 'Josefin Slab', serif;
-	}
-	.noselect {
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
-    cursor:default;
-	}
+
 </style>
 
 
@@ -135,7 +116,7 @@ Bangladesh - Magnifying Glass
 		var magnifyingGlass = L.magnifyingGlass({
 		  layers: [overlay],
 		  zoomOffset: 0,
-		  radius: 100
+		  radius: 75
 		}).addTo(map);
 		
 		
@@ -208,7 +189,7 @@ Bangladesh - Magnifying Glass
 		
 		
 		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
-		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("Nepal.json",{style:style_Nepal,
+		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("Nepal_2.json",{style:style_Nepal,
 												onEachFeature:onEachFeature,smoothFactor: 0}).addTo(Nepal); 
 		
 		// Define Colourscheme and Variable to Symbolise
