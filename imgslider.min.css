@@ -23,7 +23,7 @@
 
 .slider .instruction{
 	position: absolute;
-	top:50%;
+	top:5%;
 	z-index:1000;
 	width: 95%;
 }
@@ -32,7 +32,7 @@
 	background: white;
 	display: inline;
 	padding: 1%;
-	font-size: 1em;
+	font-size: 2em;
 	font-family: Sans-Serif;
 	font-weight: bold
 }
