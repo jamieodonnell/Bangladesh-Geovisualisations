@@ -37,7 +37,6 @@
 	width: 800px;
 	height: 500px;
 	}
-		
 	
 
 	
@@ -72,29 +71,33 @@
 	}
 	
 	.legend {
-	    line-height: 18px;
-	    color: #555;
-		}
-
-		.legend i {
-	    width: 18px;
-	    height: 18px;
-	    float: left;
-	    margin-right: 8px;
-	    opacity: 0.7;
-		}
+    line-height: 18px;
+    color: #555;
+	}
+	
+	.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+	}
+	
 	.Bang_Old {
-	    line-height: 18px;
-	    color: #555;
-		}
-
+    line-height: 18px;
+    color: #555;
+	}
+	
 	.Bang_Old i {
-	    width: 18px;
-	    height: 18px;
-	    float: left;
-	    margin-right: 8px;
-	    opacity: 0.7;
-		}
+    width: 20px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+	}
+	
+
+
 </style>
 
 
@@ -147,11 +150,11 @@ Bangladesh - Magnifying Glass
 		
 		<!-- // Define Colourscheme and Variable to Symbolise -->
 		function getColor(tFGT_0) {
-			return tFGT_0 > 0.71 ? '#084594' :
-				   tFGT_0 > 0.53  ? '#2171b5' :
-				   tFGT_0 > 0.47  ? '#4292c6' :
-				   tFGT_0 > 0.41  ? '#6baed6' :
-				   tFGT_0 > 0.34   ? '#9ecae1':
+			return tFGT_0 > 71 ? '#084594' :
+				   tFGT_0 > 53  ? '#2171b5' :
+				   tFGT_0 > 47  ? '#4292c6' :
+				   tFGT_0 > 41  ? '#6baed6' :
+				   tFGT_0 > 34   ? '#9ecae1':
 					'#9ecae1';}
 				   
 		<!-- } -->
@@ -165,7 +168,9 @@ Bangladesh - Magnifying Glass
 				fillOpacity: 1
 			};
 		}
-			var bang = L.control({position: 'bottomleft'});
+		
+		
+		var bang = L.control({position: 'bottomleft'});
 
 		bang.onAdd = function (map) {
 
@@ -313,6 +318,10 @@ Bangladesh - Magnifying Glass
 		};
 
 		info.addTo(Nepal);
+
+		
+		
+		
 		var legend = L.control({position: 'bottomleft'});
 
 		legend.onAdd = function (Nepal) {
@@ -325,7 +334,7 @@ Bangladesh - Magnifying Glass
 		for (var i = 0; i < grades.length; i++) {
 			div.innerHTML +=
 				'<i style="background:' + getColor_Nepal(grades[i] + 1) + '"></i> ' +
-				grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '%<br>' : '+');
+				grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '%<br>' : '%+');
 		}
 
 		return div;
