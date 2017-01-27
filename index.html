@@ -158,18 +158,18 @@ Bangladesh - Magnifying Glass
 
 		Bang_Old.onAdd = function (map) {
 
-		var div = L.DomUtil.create('div', 'info legend'),
+		var div1 = L.DomUtil.create('div', 'info legend'),
 			grades_Bang = [0.34,0.41 , 0.47, 0.53,0.71],
 			labels = [];
 
 		// loop through our density intervals and generate a label with a colored square for each interval
 		for (var i = 0; i < grades_Bang.length; i++) {
-			div.innerHTML +=
+			div1.innerHTML +=
 				'<i style="background:' + 'Ceisin Small Area' + getColor(grades_Bang[i] + 1) + '"></i> ' +
 				grades_Bang[i] + (grades_Bang[i + 1] ? '&ndash;' + grades_Bang[i + 1] + '%<br>' : '+');
 		}
 
-		return div;
+		return div1;
 		};
 
 		Bang_Old.addTo(map);
