@@ -165,25 +165,30 @@ Bangladesh - Magnifying Glass
 				fillOpacity: 1
 			};
 		}
-		var Bang_Old = L.control({position: 'bottomleft'});
+    var Bang_Old = L.control({
+      position: 'bottomleft'
+    });
+    Bang_Old.onAdd = function(map) {
 
-		Bang_Old.onAdd = function (map) {
+      var div = L.DomUtil.create('div', 'info legend'),
+        grades1 = [34,41,47,53,71],
+        labels = [],
+        from, to;
 
-		var div = L.DomUtil.create('div', 'info legend'),
-			grades_Bang = [34,41,47,53,71],
-			labels = [];
+      for (var i = 0; i < grades1.length; i++) {
+        from = grades1[i];
+        to = grades1[i + 1];
 
-		// loop through our density intervals and generate a label with a colored square for each interval
-		for (var i = 0; i < grades_Bang.length; i++) {
-			div.innerHTML +=
-				'<i style="background:'+ getColor(grades_Bang[i] + 1) + '"></i> ' +
-				grades_Bang[i] + (grades_Bang[i + 1] ? '&ndash;' + grades_Bang[i + 1] + '%<br>' : '%+');
-		}
+        labels.push(
+          '<i style="background:' + getColor(from /*+ 1*/) + '"></i> ' +
+          from + (to ? '&ndash;' + to : '+'));
+      }
 
-		return div;
-		};
-
-		Bang_Old.addTo(map);
+      div.innerHTML = labels.join('<br>');
+      return div;
+    };
+	
+	Bang_Old.addTo(map);
 </script>
 
 <div>
