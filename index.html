@@ -113,7 +113,7 @@ Bangladesh - Magnifying Glass
 
 		// initialize the map + minimum zoom if just focusing on one country
 		var map = L.map('map',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([23.814602, 90.413961], 12);
-		
+		map.dragging.disable()
 		// Add zoom to extent button (see stylesheet and .js file in header)
 		<!-- map.addControl(new L.Control.ZoomMin()) -->
 		
@@ -153,14 +153,15 @@ Bangladesh - Magnifying Glass
 		
 		
 		
-		//Legend
+		//Legends
 		
-		function getColor(tFGT_0) {
-			return tFGT_0 > 71 ? '#084594' :
-				   tFGT_0 > 53  ? '#2171b5' :
-				   tFGT_0 > 47  ? '#4292c6' :
-				   tFGT_0 > 41  ? '#6baed6' :
-				   tFGT_0 > 34   ? '#9ecae1':
+		//CIESIN Legend
+		function getColor_CIESIN(tFGT_0) {
+			return tFGT_0 > 53 ? '#084594' :
+				   tFGT_0 > 47  ? '#2171b5' :
+				   tFGT_0 > 41  ? '#4292c6' :
+				   tFGT_0 > 34  ? '#6baed6' :
+				   tFGT_0 > 0   ? '#9ecae1':				   
 					'#9ecae1';}
 				   
 		
@@ -169,12 +170,12 @@ Bangladesh - Magnifying Glass
 		CIESIN_Legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend'),
-			CIESIN_Breaks = [34,41,47,53,71];
+			CIESIN_Breaks = [0,34,41,47,53,71];
 
 		// loop through our density intervals and generate a label with a colored square for each interval
-		for (var i = 0; i < CIESIN_Breaks.length; i++) {
+		for (var i = 0; i < ((CIESIN_Breaks.length)-1); i++) {
 			div.innerHTML +=
-				'<i style="background:' + getColor(CIESIN_Breaks[i] + 1) + '"></i> ' +
+				'<i style="background:' + getColor_CIESIN(CIESIN_Breaks[i] + 1) + '"></i> ' +
 				CIESIN_Breaks[i] + (CIESIN_Breaks[i + 1] ? '&ndash;' + CIESIN_Breaks[i + 1] + '%<br>' : '%+');
 		}
 
@@ -182,6 +183,36 @@ Bangladesh - Magnifying Glass
 		};
 
 		CIESIN_Legend.addTo(map);
+		
+		
+		//PPI Legend
+		function getColor_PPI(tFGT_0) {
+			return tFGT_0 > 53 ? '#084594' :
+				   tFGT_0 > 47  ? '#2171b5' :
+				   tFGT_0 > 41  ? '#4292c6' :
+				   tFGT_0 > 34  ? '#6baed6' :
+				   tFGT_0 > 0   ? '#9ecae1':				   
+					'#9ecae1';}
+				   
+		
+		var PPI_Legend = L.control({position: 'bottomleft'});
+
+		PPI_Legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			PPI_Breaks = [34,41,47,53,71];
+
+		// loop through our density intervals and generate a label with a colored square for each interval
+		for (var i = 0; i < ((PPI_Breaks.length)-1); i++) {
+			div.innerHTML +=
+				'<i style="background:' + getColor_PPI(PPI_Breaks[i] + 1) + '"></i> ' +
+				PPI_Breaks[i] + (PPI_Breaks[i + 1] ? '&ndash;' + PPI_Breaks[i + 1] + '%<br>' : '%+');
+		}
+
+		return div;
+		};
+
+		PPI_Legend.addTo(map);
 		
 		
 </script>
