@@ -131,61 +131,30 @@ Bangladesh - Magnifying Glass
 												
 												
 		// Adding GeoTiffs
-		var	RasterBounds = new L.LatLngBounds(
+		var	Poverty_Bounds = new L.LatLngBounds(
 			new L.LatLng(26.64163201,88.00822613),
 			new L.LatLng(20.73330104,92.67489093));
 
-		var	RasterBounds1 = new L.LatLngBounds(
+		var	CIESIN_Bounds = new L.LatLngBounds(
 			new L.LatLng(26.6344108958,88.02834),
 			new L.LatLng(20.5760799858,92.67000481));
 
 			
 		map.fitBounds(bounds);
-		var overlay = new L.ImageOverlay("Bangladesh_PPI.png", RasterBounds);
-		var Previous = new L.ImageOverlay("CIESIN_Raster_PNG_White.png", RasterBounds1).addTo(map);		
-		
-		var WIPOV = new L.ImageOverlay("WIPOV.png", RasterBounds)
-		
-		var toggle = L.easyButton({
-		states: [{
-		stateName: 'add-markers',
-		icon: 'fa-map-marker',
-		title: 'add random markers',
-		onClick: function(control) {
-		  //map.addLayer(WIPOV);
-		  map.removeLayer(magnifyingGlass);
-		  map.addLayer(WIPOV);
-		  control.state('remove-markers');
-		}
-		}, {
-		icon: 'fa-undo',
-		stateName: 'remove-markers',
-		onClick: function(control) {
-		  //map.removeLayer(WIPOV);
-		  map.removeLayer(WIPOV);
-		  map.addLayer(magnifyingGlass);		  
-		  control.state('add-markers');
-		},
-		title: 'remove markers'
-		}]
-		});
-		toggle.addTo(map);
+		var PPI = new L.ImageOverlay("img/Bangladesh_PPI.png", Poverty_Bounds);
+		var CIESIN = new L.ImageOverlay("img/CIESIN_Raster_PNG_White.png", CIESIN_Bounds).addTo(map);		
 		
 		
 		var magnifyingGlass = L.magnifyingGlass({
-		  layers: [overlay],
+		  layers: [PPI],
 		  zoomOffset: 0,
 		  radius: 75
 		}).addTo(map);
 		
-		var WIPOV = L.magnifyingGlass({
-		  layers: [WIPOV],
-		  zoomOffset: 0,
-		  radius: 75
-		})
 		
 		
-		<!-- // Define Colourscheme and Variable to Symbolise -->
+		//Legend
+		
 		function getColor(tFGT_0) {
 			return tFGT_0 > 71 ? '#084594' :
 				   tFGT_0 > 53  ? '#2171b5' :
@@ -194,41 +163,34 @@ Bangladesh - Magnifying Glass
 				   tFGT_0 > 34   ? '#9ecae1':
 					'#9ecae1';}
 				   
-		<!-- } -->
-		// Define Style differences for when feature is hovered over
-		function style(feature) {
-			return {
-				fillColor: getColor(feature.properties.tFGT_0) ,
-				weight: 0,
-				opacity: 1,
-				color: 'black',
-				fillOpacity: 1
-			};
-		}
 		
-		
-		var bang = L.control({position: 'bottomleft'});
+		var CIESIN_Legend = L.control({position: 'bottomleft'});
 
-		bang.onAdd = function (map) {
+		CIESIN_Legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend'),
-			banging = [34,41,47,53,71],
-			labels = [];
+			CIESIN_Breaks = [34,41,47,53,71];
 
 		// loop through our density intervals and generate a label with a colored square for each interval
-		for (var i = 0; i < banging.length; i++) {
+		for (var i = 0; i < CIESIN_Breaks.length; i++) {
 			div.innerHTML +=
-				'<i style="background:' + getColor(banging[i] + 1) + '"></i> ' +
-				banging[i] + (banging[i + 1] ? '&ndash;' + banging[i + 1] + '%<br>' : '%+');
+				'<i style="background:' + getColor(CIESIN_Breaks[i] + 1) + '"></i> ' +
+				CIESIN_Breaks[i] + (CIESIN_Breaks[i + 1] ? '&ndash;' + CIESIN_Breaks[i + 1] + '%<br>' : '%+');
 		}
 
 		return div;
 		};
 
-		bang.addTo(map);
+		CIESIN_Legend.addTo(map);
+		
+		
 </script>
 
 <div>
+
+
+
+
 <br/><br/><br/>
 
 <h1> Dhaka - Before and After </h1>
@@ -240,13 +202,13 @@ Bangladesh - Magnifying Glass
 
   <div class="left image">
 
-    <img src="Dakar_without.png"/>
+    <img src="img/Dakar_without.png"/>
 
   </div>
 
   <div class="right image">
 
-    <img src="Dakar_PPI.png"/>
+    <img src="img/Dakar_PPI.png"/>
 
   </div>
 
@@ -255,6 +217,9 @@ Bangladesh - Magnifying Glass
 </div>
 
 <div><br/><br/><br/></div>
+
+
+
 <h1> Nepal - Ilaka Food poverty </h1>
 <div id="Nepal"><br/></div>
 <div>
@@ -275,7 +240,7 @@ Bangladesh - Magnifying Glass
 		
 		
 		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
-		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("Nepal_2.json",{style:style_Nepal,
+		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("data/Nepal_2.json",{style:style_Nepal,
 												onEachFeature:onEachFeature,smoothFactor: 0}).addTo(Nepal); 
 		
 		// Define Colourscheme and Variable to Symbolise
