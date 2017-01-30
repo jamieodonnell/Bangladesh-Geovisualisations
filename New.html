@@ -104,9 +104,6 @@
 
 
 <body>
-<h1>
-Bangladesh - Magnifying Glass
-</h1>
 <div class="container">
 	<div class="row">
 		<div class="col-6">
@@ -144,7 +141,7 @@ Bangladesh - Magnifying Glass
 
 			
 		map.fitBounds(bounds);
-		var PPI = new L.ImageOverlay("img/Wealth_Index.png", Poverty_Bounds);
+		var PPI = new L.ImageOverlay("img/Bangladesh_PPI.png", Poverty_Bounds);
 		var CIESIN = new L.ImageOverlay("img/CIESIN_Raster_PNG_White.png", CIESIN_Bounds).addTo(map);		
 		
 		
@@ -157,28 +154,73 @@ Bangladesh - Magnifying Glass
 		
 		
 		//Legends
-		var Legend = L.control({position: 'topright'});
-		Legend.onAdd = function(map) {
-			var div = L.DomUtil.create('div');
-            div.innerHTML += "<iframe src='"+ "img/Wealth_Index_Legend.png" +"' frameborder='0'></iframe>"
-        return div;
-        };
 		
-		Legend.addTo(map);
+		//CIESIN Legend
+		function getColor_CIESIN(tFGT_0) {
+			return tFGT_0 > 53 ? '#084594' :
+				   tFGT_0 > 47  ? '#2171b5' :
+				   tFGT_0 > 41  ? '#4292c6' :
+				   tFGT_0 > 34  ? '#6baed6' :
+				   tFGT_0 > 0   ? '#9ecae1':				   
+					'#9ecae1';}
+				   
+		
+		var CIESIN_Legend = L.control({position: 'bottomleft'});
+
+		CIESIN_Legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			CIESIN_Breaks = [0,34,41,47,53,71];
+
+		// loop through our density intervals and generate a label with a colored square for each interval
+		for (var i = 0; i < ((CIESIN_Breaks.length)-1); i++) {
+			div.innerHTML +=
+				'<i style="background:' + getColor_CIESIN(CIESIN_Breaks[i] + 1) + '"></i> ' +
+				CIESIN_Breaks[i] + (CIESIN_Breaks[i + 1] ? '&ndash;' + CIESIN_Breaks[i + 1] + '%<br>' : '%+');
+		}
+
+		return div;
+		};
+
+		CIESIN_Legend.addTo(map);
+		
+		
+		//PPI Legend
+		function getColor_PPI(tFGT_0) {
+			return tFGT_0 > 53 ? '#084594' :
+				   tFGT_0 > 47  ? '#2171b5' :
+				   tFGT_0 > 41  ? '#4292c6' :
+				   tFGT_0 > 34  ? '#6baed6' :
+				   tFGT_0 > 0   ? '#9ecae1':				   
+					'#9ecae1';}
+				   
+		
+		var PPI_Legend = L.control({position: 'topright'});
+
+		PPI_Legend.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			PPI_Breaks = [0,34,41,47,53,71];
+
+		// loop through our density intervals and generate a label with a colored square for each interval
+		for (var i = 0; i < ((PPI_Breaks.length)-1); i++) {
+			div.innerHTML +=
+				'<i style="background:' + getColor_PPI(PPI_Breaks[i] + 1) + '"></i> ' +
+				PPI_Breaks[i] + (PPI_Breaks[i + 1] ? '&ndash;' + PPI_Breaks[i + 1] + '%<br>' : '%+');
+		}
+
+		return div;
+		};
+
+		PPI_Legend.addTo(map);
 		
 		
 </script>
 </div>
+</div>
 
-
-
-
-
-<br/><br/><br/>
-
-<h1> Dhaka - Before and After </h1>
-
-<div class="slider">
+<div class="col-6">
+	<div class="slider">
 
  <div class="slider responsive">
 
@@ -197,147 +239,7 @@ Bangladesh - Magnifying Glass
 </div>
 
 </div>
-
-<div><br/><br/><br/></div>
-
-
-
-<h1> Nepal - Ilaka Food poverty </h1>
-<div id="Nepal"><br/></div>
-<div>
-<script>
-
-		// initialize the Nepal + minimum zoom if just focusing on one country
-		var Nepal = L.map('Nepal',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([28.5, 84.1], 7);
-		
-		// Add zoom to extent button (see stylesheet and .js file in header)
-		<!-- Nepal.addControl(new L.Control.ZoomMin()) -->
-		
-		//Setting Maximum bounds for zooming and panning (Top left and bottom right from google Nepals)
-		var bounds = L.latLngBounds([[30.5, 79.81], [26.13, 88.34]]);
-		Nepal.setMaxBounds(bounds);
-		Nepal.on('drag', function() {
-			Nepal.panInsideBounds(bounds, { animate: false });
-		});
-		
-		
-		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
-		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("data/Nepal_2.json",{style:style_Nepal,
-												onEachFeature:onEachFeature,smoothFactor: 0}).addTo(Nepal); 
-		
-		// Define Colourscheme and Variable to Symbolise
-		function getColor_Nepal(P0) {
-			return P0 > 70 ? '#084594' :
-				   P0 > 60  ? '#2171b5' :
-				   P0 > 50  ? '#4292c6' :
-				   P0 > 40  ? '#6baed6' :
-				   P0 > 30   ? '#9ecae1' :
-				   P0 > 20   ? '#c6dbef' :
-				   P0 > 10   ? '#deebf7' :
-				   P0 > 0   ? '#d9d9d9' :
-							  '#b2df8a';
-				   
-		}
-		// Define Style differences for when feature is hovered over
-		function style_Nepal(feature) {
-			return {
-				fillColor: getColor_Nepal(feature.properties.P0),
-				weight: 0,
-				opacity: 1,
-				color: 'white',
-				fillOpacity: 1
-			};
-		}
-
-
-		function highlightFeature(e) {
-			var layer = e.target;
-
-			layer.setStyle({
-				weight: 2,
-				color: '#777',
-				dashArray: '',
-				fillOpacity: 0.7
-			});
-
-			if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
-				layer.bringToFront();
-			info.update(layer.feature.properties);	
-			}
-		}
-
-
-		function resetHighlight(e) {
-			geojsonLayer_Nepal.resetStyle(e.target);
-		}
-
-		function zoomToFeature(e) {
-			Nepal.fitBounds(e.target.getBounds());
-		}
-		function resetHighlight(e) {
-			geojsonLayer_Nepal.resetStyle(e.target);
-			info.update();
-		}
-		function onEachFeature(feature, layer) {
-			layer.on({
-				mouseover: highlightFeature,
-				mouseout: resetHighlight,
-				click: zoomToFeature
-			});
-		}
-
-		var info = L.control({position: 'topright'});
-
-		info.onAdd = function (Nepal) {
-			this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-			this.update();
-			return this._div;
-		};
-
-		// Update the control based on feature properties passed
-		info.update = function (props) {
-			this._div.innerHTML = '<h4>Food Poverty Estimate</h4><p>' +  (props ?
-				'Ilaka ID ' + props.IlakaID + '</b><br /><p><b>' + props.P0 + '% Prevalence</b>'
-				: 'Hover over an Ilaka');
-		};
-
-		info.addTo(Nepal);
-
-		
-		
-		
-		var legend = L.control({position: 'bottomleft'});
-
-		legend.onAdd = function (Nepal) {
-
-		var div = L.DomUtil.create('div', 'info legend'),
-			grades = [10, 20, 30, 40, 50, 60, 70],
-			labels = [];
-
-		// loop through our density intervals and generate a label with a colored square for each interval
-		for (var i = 0; i < grades.length; i++) {
-			div.innerHTML +=
-				'<i style="background:' + getColor_Nepal(grades[i] + 1) + '"></i> ' +
-				grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '%<br>' : '%+');
-		}
-
-		return div;
-		};
-
-		legend.addTo(Nepal);
-
-
-</script>
-
 </div>
-
-
-
-
 </div>
 </body>
-<br/><br/><br/>
-<script>
-$('.slider').slider({ instructionText:"Drag!" });
-</script>
 </html>
