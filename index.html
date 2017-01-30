@@ -25,7 +25,7 @@
 	margin: 0 auto;
 	text-align: left;
 	width: 600px;
-	height: 600px;
+	height: 620px;
 	}
 	
 	.slider{
@@ -71,7 +71,7 @@
 	}
 	
 	.legend {
-    line-height: 0px;
+    line-height: 18px;
     color: #555;
 	}
 	
@@ -79,23 +79,32 @@
     width: 18px;
     height: 18px;
     float: left;
-    margin-right: 0px;
-    opacity: 0.7;
-	}
-	
-	.Bang_Old {
-    line-height: 18px;
-    color: #555;
-	}
-	
-	.Bang_Old i {
-    width: 20px;
-    height: 18px;
-    float: left;
     margin-right: 8px;
     opacity: 0.7;
 	}
+	
+	
+	.my-custom-control {
+  background-image: url('img/Wealth_Index_Legend.png');
+  width:200px; /* you will likely need to specify image width and height here */
+  height:100px;
+}
 
+	.btnStyle {
+    cursor:pointer;
+    border-radius: 0px;
+	background-color: #fffff;  
+	border: 0px solid #00000; 
+	color: #00000;
+	 padding: 4px;
+	 margin-top: 4px;
+	 margin-bottom: 4px;
+	 width:28%;
+	font-family: Sans-Serif;
+	}
+	
+	.centered {
+	margin: 0 auto}
 
 </style>
 
@@ -107,10 +116,12 @@
 <h1>
 Bangladesh - Magnifying Glass
 </h1>
-<div class="container">
-	<div class="row">
-		<div class="col-6">
+<div class="span9" style="height:100%">
 			<div id="map"></div>
+			<div id="centered" style="width:600px;">
+            <input type="button" id="Btn1" value="Wealth index" onclick="" class="btnStyle span3" />
+            <input type="button" id="Btn2" value="PPI" onclick="" class="btnStyle span3" /> 
+            <input type="button" id="Btn3" value="Income" onclick="" class="btnStyle span3" />
 
 <script>
 
@@ -144,12 +155,13 @@ Bangladesh - Magnifying Glass
 
 			
 		map.fitBounds(bounds);
-		var PPI = new L.ImageOverlay("img/Wealth_Index.png", Poverty_Bounds);
-		var CIESIN = new L.ImageOverlay("img/CIESIN_Raster_PNG_White.png", CIESIN_Bounds).addTo(map);		
+		var CIESIN = new L.ImageOverlay("img/CIESIN_Raster_PNG_White.png", CIESIN_Bounds).addTo(map);
+		var Wealth_Index = new L.ImageOverlay("img/Wealth_Index.png", Poverty_Bounds);
+		var PPI = new L.ImageOverlay("img/PPI.png", Poverty_Bounds);		
 		
 		
 		var magnifyingGlass = L.magnifyingGlass({
-		  layers: [PPI],
+		  layers: [Wealth_Index],
 		  zoomOffset: 0,
 		  radius: 75
 		}).addTo(map);
@@ -157,17 +169,36 @@ Bangladesh - Magnifying Glass
 		
 		
 		//Legends
-		var Legend = L.control({position: 'topright'});
-		Legend.onAdd = function(map) {
-			var div = L.DomUtil.create('div');
-            div.innerHTML += "<iframe src='"+ "img/Wealth_Index_Legend.png" +"' frameborder='0'></iframe>"
-        return div;
-        };
+		<!-- var Legend2 = L.control({position: 'bottomleft'}); -->
+		<!-- Legend2.onAdd = function(map) { -->
+			<!-- var div = L.DomUtil.create('div'); -->
+            <!-- div.innerHTML += "<iframe src='"+ "img/Wealth_Index_Legend.png" +"' frameborder='0'></iframe>" -->
+        <!-- return div; -->
+        <!-- }; -->
 		
-		Legend.addTo(map);
+		<!-- Legend2.addTo(map); -->
 		
+		
+		
+	var MyControl = L.Control.extend({
+    options: {
+      position: 'topright'
+    },
+
+    onAdd: function (map) {
+      // create the control container with a particular class name
+      // ** you can add the image to the div as a background image using css
+      var container = L.DomUtil.create('div', 'my-custom-control');
+
+      // ... initialize other DOM elements, add listeners, etc.
+      return container;
+    }
+	});
+
+	map.addControl(new MyControl());
 		
 </script>
+</div>
 </div>
 
 
