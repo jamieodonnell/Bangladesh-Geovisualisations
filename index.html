@@ -4,14 +4,16 @@
   <meta charset="utf-8" />
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
-  <script src="jquery-3.1.1.min.js"></script>
-  <script src="leaflet.ajax.min.js"></script>
-  <link rel="stylesheet" href="L.Control.ZoomMin.css" media="screen">
-  <script src="L.Control.ZoomMin.js"></script>
+  <script src="js/jquery-3.1.1.min.js"></script>
+  <script src="js/leaflet.ajax.min.js"></script>
+  <link rel="stylesheet" href="css/L.Control.ZoomMin.css" media="screen">
+  <script src="js/L.Control.ZoomMin.js"></script>
   <link rel="stylesheet" href="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/master/leaflet.magnifyingglass.css" />
   <script src="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/leaflet-0.7.2/leaflet.magnifyingglass.js"></script>
-  <link rel="stylesheet" type="text/css" href="imgslider.min.css">
-  <script type="text/javascript" src="imgslider.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="css/imgslider.min.css">
+  <script type="text/javascript" src="js/imgslider.min.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
+  <script src="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.js"></script>
   
 	<style>
 
@@ -21,8 +23,8 @@
 	#map {
 	margin: 0 auto;
 	text-align: left;
-	width: 900px;
-	height: 700px;
+	width: 600px;
+	height: 600px;
 	}
 	
 	.slider{
@@ -50,9 +52,6 @@
 	.leaflet-touch .leaflet-bar {
 		border: none;
 	}
-	<!-- .h1 { -->
-	<!-- font-family: Sans Serif; -->
-	<!-- margin: 0 auto;} -->
 	h1   {
 	text-align: center;
 	font-family: Sans-Serif;}
@@ -69,6 +68,46 @@
 		margin: 0 0 5px;
 		color: #777;
 	}
+	
+	.legend {
+    line-height: 18px;
+    color: #555;
+	}
+	
+	.legend i {
+    width: 18px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+	}
+	
+	.Bang_Old {
+    line-height: 18px;
+    color: #555;
+	}
+	
+	.Bang_Old i {
+    width: 20px;
+    height: 18px;
+    float: left;
+    margin-right: 8px;
+    opacity: 0.7;
+	}
+
+	.leaflet-control-layers{ 
+	width: 10%;
+    background-position:3px 10% ;
+    padding-left: 0px;
+    text-decoration:none;
+    line-height:20px;
+	font-family: sans-serif;
+	color: #555;
+
+    
+  }
+
+
 
 </style>
 
@@ -100,16 +139,32 @@ Bangladesh - Magnifying Glass
 		
 		
 		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
-		var geojsonLayer = new L.GeoJSON.AJAX("Bangladesh2.json",{style:style
-												,smoothFactor: 0.1}).addTo(map); 
-		//onEachFeature:onEachFeature
-		// Adding GeoTiff
+		<!-- var geojsonLayer = new L.GeoJSON.AJAX("Bangladesh2.json",{style:style -->
+												<!-- ,smoothFactor: 0.1}).addTo(map);  -->
+												
+												
+		// Adding GeoTiffs
 		var	RasterBounds = new L.LatLngBounds(
 			new L.LatLng(26.64163201,88.00822613),
 			new L.LatLng(20.73330104,92.67489093));
-		
+
+		var	RasterBounds1 = new L.LatLngBounds(
+			new L.LatLng(26.6344108958,88.02834),
+			new L.LatLng(20.5760799858,92.67000481));
+
+			
 		map.fitBounds(bounds);
-		var overlay = new L.ImageOverlay("Bangladesh4.png", RasterBounds);
+		var overlay = new L.ImageOverlay("Bangladesh_PPI.png", RasterBounds);
+		var Previous = new L.ImageOverlay("CIESIN_Raster_PNG_White.png", RasterBounds1).addTo(map);		
+		
+		var Previous = new L.ImageOverlay("WIPOV.png", RasterBounds)
+		
+		
+		var helloPopup = L.popup().setContent('Hello World!');
+
+		L.easyButton('fa-globe', function(btn, map){
+			helloPopup.setLatLng(map.getCenter()).openOn(map);
+		}).addTo(map);
 		
 		
 		
@@ -122,11 +177,11 @@ Bangladesh - Magnifying Glass
 		
 		<!-- // Define Colourscheme and Variable to Symbolise -->
 		function getColor(tFGT_0) {
-			return tFGT_0 > 0.71 ? '#084594' :
-				   tFGT_0 > 0.53  ? '#2171b5' :
-				   tFGT_0 > 0.47  ? '#4292c6' :
-				   tFGT_0 > 0.41  ? '#6baed6' :
-				   tFGT_0 > 0.34   ? '#9ecae1':
+			return tFGT_0 > 71 ? '#084594' :
+				   tFGT_0 > 53  ? '#2171b5' :
+				   tFGT_0 > 47  ? '#4292c6' :
+				   tFGT_0 > 41  ? '#6baed6' :
+				   tFGT_0 > 34   ? '#9ecae1':
 					'#9ecae1';}
 				   
 		<!-- } -->
@@ -140,6 +195,27 @@ Bangladesh - Magnifying Glass
 				fillOpacity: 1
 			};
 		}
+		
+		
+		var bang = L.control({position: 'bottomleft'});
+
+		bang.onAdd = function (map) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			banging = [34,41,47,53,71],
+			labels = [];
+
+		// loop through our density intervals and generate a label with a colored square for each interval
+		for (var i = 0; i < banging.length; i++) {
+			div.innerHTML +=
+				'<i style="background:' + getColor(banging[i] + 1) + '"></i> ' +
+				banging[i] + (banging[i + 1] ? '&ndash;' + banging[i + 1] + '%<br>' : '%+');
+		}
+
+		return div;
+		};
+
+		bang.addTo(map);
 </script>
 
 <div>
@@ -270,6 +346,28 @@ Bangladesh - Magnifying Glass
 
 		info.addTo(Nepal);
 
+		
+		
+		
+		var legend = L.control({position: 'bottomleft'});
+
+		legend.onAdd = function (Nepal) {
+
+		var div = L.DomUtil.create('div', 'info legend'),
+			grades = [10, 20, 30, 40, 50, 60, 70],
+			labels = [];
+
+		// loop through our density intervals and generate a label with a colored square for each interval
+		for (var i = 0; i < grades.length; i++) {
+			div.innerHTML +=
+				'<i style="background:' + getColor_Nepal(grades[i] + 1) + '"></i> ' +
+				grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '%<br>' : '%+');
+		}
+
+		return div;
+		};
+
+		legend.addTo(Nepal);
 
 
 </script>
@@ -281,6 +379,7 @@ Bangladesh - Magnifying Glass
 
 
 </body>
+<br/><br/><br/>
 <script>
 $('.slider').slider({ instructionText:"Drag!" });
 </script>
