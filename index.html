@@ -195,12 +195,12 @@ Bangladesh - Magnifying Glass
 					'#9ecae1';}
 				   
 		
-		var PPI_Legend = L.control({position: 'bottomleft'});
+		var PPI_Legend = L.control({position: 'topright'});
 
 		PPI_Legend.onAdd = function (map) {
 
 		var div = L.DomUtil.create('div', 'info legend'),
-			PPI_Breaks = [34,41,47,53,71];
+			PPI_Breaks = [0,34,41,47,53,71];
 
 		// loop through our density intervals and generate a label with a colored square for each interval
 		for (var i = 0; i < ((PPI_Breaks.length)-1); i++) {
