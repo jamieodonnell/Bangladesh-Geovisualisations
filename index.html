@@ -153,8 +153,8 @@ Bangladesh - Magnifying Glass
 		title: 'add random markers',
 		onClick: function(control) {
 		  //map.addLayer(WIPOV);
-		  magnifyingGlass.removeLayer(magnifyingGlass);
-		  magnifyingGlass.addLayer(magnifyingGlass2);
+		  map.removeLayer(magnifyingGlass);
+		  map.addLayer(magnifyingGlass2);
 		  control.state('remove-markers');
 		}
 		}, {
@@ -162,8 +162,8 @@ Bangladesh - Magnifying Glass
 		stateName: 'remove-markers',
 		onClick: function(control) {
 		  //map.removeLayer(WIPOV);
-		  magnifyingGlass.removeLayer(WIPOV);
-		  magnifyingGlass.addLayer(magnifyingGlass);		  
+		  map.removeLayer(WIPOV);
+		  map.addLayer(magnifyingGlass);		  
 		  control.state('add-markers');
 		},
 		title: 'remove markers'
