@@ -146,11 +146,26 @@ Bangladesh - Magnifying Glass
 		
 		var WIPOV = new L.ImageOverlay("WIPOV.png", RasterBounds)
 		
-		
-
-		L.easyButton('fa-bars', function(btn, map,PPI){
-			magnifyingGlass.removeLayer(overlay);
-		}).addTo(map);
+		var toggle = L.easyButton({
+		states: [{
+		stateName: 'add-markers',
+		icon: 'fa-map-marker',
+		title: 'add random markers',
+		onClick: function(control) {
+		  map.addLayer(WIPOV);
+		  control.state('remove-markers');
+		}
+		}, {
+		icon: 'fa-undo',
+		stateName: 'remove-markers',
+		onClick: function(control) {
+		  map.removeLayer(WIPOV);
+		  control.state('add-markers');
+		},
+		title: 'remove markers'
+		}]
+		});
+		toggle.addTo(map);
 		
 		function PPI () {
 			magnifyingGlass.removeLayer(overlay);
