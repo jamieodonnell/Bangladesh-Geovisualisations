@@ -144,13 +144,19 @@ Bangladesh - Magnifying Glass
 		var overlay = new L.ImageOverlay("Bangladesh_PPI.png", RasterBounds);
 		var Previous = new L.ImageOverlay("CIESIN_Raster_PNG_White.png", RasterBounds1).addTo(map);		
 		
-		var Previous = new L.ImageOverlay("WIPOV.png", RasterBounds)
+		var WIPOV = new L.ImageOverlay("WIPOV.png", RasterBounds)
 		
 		
 
-		L.easyButton('fa-bars', function(btn, map){
+		L.easyButton('fa-bars', function(btn, map,PPI){
 			helloPopup.setLatLng(map.getCenter()).openOn(map);
 		}).addTo(map);
+		
+		function PPI () {
+			magnifyingGlass.removeLayer(overlay);
+			magnifyingGlass.addLayer(WIPOV);
+			}
+		
 		
 		
 		
