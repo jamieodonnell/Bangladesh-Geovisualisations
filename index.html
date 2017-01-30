@@ -149,7 +149,7 @@ Bangladesh - Magnifying Glass
 		
 
 		L.easyButton('fa-bars', function(btn, map,PPI){
-			helloPopup.setLatLng(map.getCenter()).openOn(map);
+			magnifyingGlass.removeLayer(overlay);
 		}).addTo(map);
 		
 		function PPI () {
