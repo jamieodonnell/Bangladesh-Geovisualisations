@@ -152,14 +152,18 @@ Bangladesh - Magnifying Glass
 		icon: 'fa-map-marker',
 		title: 'add random markers',
 		onClick: function(control) {
-		  map.addLayer(WIPOV);
+		  //map.addLayer(WIPOV);
+		  magnifyingGlass.removeLayer(overlay);
+		  magnifyingGlass.addLayer(WIPOV);
 		  control.state('remove-markers');
 		}
 		}, {
 		icon: 'fa-undo',
 		stateName: 'remove-markers',
 		onClick: function(control) {
-		  map.removeLayer(WIPOV);
+		  //map.removeLayer(WIPOV);
+		  magnifyingGlass.removeLayer(WIPOV);
+		  magnifyingGlass.addLayer(overlay);		  
 		  control.state('add-markers');
 		},
 		title: 'remove markers'
