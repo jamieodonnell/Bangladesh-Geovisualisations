@@ -122,7 +122,6 @@
 
 <h1> Mapping poverty using mobile phone and satellite data </br>-</br> Bangladesh Data Visualisation </h1>
 </br></br></br></br>
-<div id="wrapper">
 <div id="leftcolumn">
 			<div id="map"></div>
             <input type="button" id="Btn1" value="Wealth Index"  class="btnStyle span3" />
@@ -217,57 +216,57 @@
 			
 		
 		
-	//Legends 
-	
-	var Wealth_Index_Legend = L.Control.extend({
-    options: {
-      position: 'topright'
-    },
-
-    onAdd: function (map) {
-      // create the control container with a particular class name
-      // ** you can add the image to the div as a background image using css
-      var container = L.DomUtil.create('div', 'Wealth_Index_Legend');
-
-      // ... initialize other DOM elements, add listeners, etc.
-      return container;
-    }
-	});
-
-	map.addControl(new Wealth_Index_Legend());
-	
-	var PPI_Legend = L.Control.extend({
-    options: {
-      position: 'topright'
-    },
-
-    onAdd: function (map) {
-      // create the control container with a particular class name
-      // ** you can add the image to the div as a background image using css
-      var container = L.DomUtil.create('div', 'PPI_Legend');
-
-      // ... initialize other DOM elements, add listeners, etc.
-      return container;
-    }
-	});
-
-	var INCPOV_Legend = L.Control.extend({
-    options: {
-      position: 'topright'
-    },
-
-    onAdd: function (map) {
-      // create the control container with a particular class name
-      // ** you can add the image to the div as a background image using css
-      var container = L.DomUtil.create('div', 'INCPOV_Legend');
-
-      // ... initialize other DOM elements, add listeners, etc.
-      return container;
-    }
-	});
-
-
+		//Legends 
 		
+		var Wealth_Index_Legend = L.Control.extend({
+		options: {
+		  position: 'topright'
+		},
+
+		onAdd: function (map) {
+		  // create the control container with a particular class name
+		  // ** you can add the image to the div as a background image using css
+		  var container = L.DomUtil.create('div', 'Wealth_Index_Legend');
+
+		  // ... initialize other DOM elements, add listeners, etc.
+		  return container;
+		}
+		});
+
+		map.addControl(new Wealth_Index_Legend());
+		
+		var PPI_Legend = L.Control.extend({
+		options: {
+		  position: 'topright'
+		},
+
+		onAdd: function (map) {
+		  // create the control container with a particular class name
+		  // ** you can add the image to the div as a background image using css
+		  var container = L.DomUtil.create('div', 'PPI_Legend');
+
+		  // ... initialize other DOM elements, add listeners, etc.
+		  return container;
+		}
+		});
+
+		var INCPOV_Legend = L.Control.extend({
+		options: {
+		  position: 'topright'
+		},
+
+		onAdd: function (map) {
+		  // create the control container with a particular class name
+		  // ** you can add the image to the div as a background image using css
+		  var container = L.DomUtil.create('div', 'INCPOV_Legend');
+
+		  // ... initialize other DOM elements, add listeners, etc.
+		  return container;
+		}
+		});
+
+
+			
 </script>
 </div>
 </br></br></br></br>
@@ -319,7 +318,9 @@
 </div>
 </div>
 <div><br/><br/><br/></div>
-
+<script>
+$('.slider').slider({ instructionText:"" });
+</script>
 
 <h1></br></br>Bangladesh Sub-District Wealth Index </h1></br>
 <div id="Nepal"><br/></div>
