@@ -22,14 +22,14 @@
 }
 
 .slider .instruction{
-	
-	top:50%;
-	z-index:500;
-	width: 95%;
+	position: absolute;
+	top:60%;
+	z-index:1000;
+	width: 95%;	
 }
 
 .slider .instruction p{
-	background: blue;
+	background: white;
 	display: inline;
 	padding: 1%;
 	font-size: 3em;

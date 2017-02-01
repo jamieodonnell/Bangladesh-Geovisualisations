@@ -1,6 +1,6 @@
 <html>
 <head>
-  <title>Visualisation Concepts</title>
+  <title>Mapping poverty using mobile phone and satellite data - Bangladesh Data Visualisation </title>
   <meta charset="utf-8" />
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
@@ -48,7 +48,8 @@
 	}
 	h1   {
 	text-align: center;
-	font-family: Sans-Serif;}
+	font-family: Sans-Serif;
+	color:#132639}
 	
 	.info {
 		padding: 6px 8px;
@@ -86,9 +87,9 @@
 		
 		
 	.District_Legend {
-	  background-image: url('img/Sub_district.png');
-	  width:94px; 
-	  height:118px;
+	  background-image: url('img/Admin3_Legend_Dhs.png');
+	  width:145px; 
+	  height:137px;
 	}
 	
 		
@@ -118,7 +119,9 @@
 
 
 <body>
-</br></br>
+
+<h1> Mapping poverty using mobile phone and satellite data </br>-</br> Bangladesh Data Visualisation </h1>
+</br></br></br></br>
 <div id="wrapper">
 <div id="leftcolumn">
 			<div id="map"></div>
@@ -129,7 +132,7 @@
 <script>
 
 
-		var map = L.map('map',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([23.814602, 90.413961], 12);
+		var map = L.map('map',{minZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false, doubleClickZoom:false}).setView([23.814602, 90.413961], 12);
 		map.dragging.disable()
 		// Add zoom to extent button (see stylesheet and .js file in header)
 		<!-- map.addControl(new L.Control.ZoomMin()) -->
@@ -158,46 +161,58 @@
 
 			
 		map.fitBounds(bounds);
-		var CIESIN = new L.ImageOverlay("img/CIESIN_Raster_PNG_White.png", CIESIN_Bounds).addTo(map);
-		var Wealth_Index = new L.ImageOverlay("img/Wealth_Index.png", Poverty_Bounds);
-		var PPI = new L.ImageOverlay("img/PPI.png", Poverty_Bounds);		
-		var INCPOV = new L.ImageOverlay("img/INCPOV.png", Poverty_Bounds);
+		<!-- var CIESIN = new L.ImageOverlay("img/National_Admin3_5.png", CIESIN_Bounds).addTo(map); -->
+		var Wealth_Index = new L.ImageOverlay("img/img1-white.png", Poverty_Bounds);
+		var PPI = new L.ImageOverlay("img/img2-white.png", Poverty_Bounds);		
+		var INCPOV = new L.ImageOverlay("img/img3-white.png", Poverty_Bounds);
+		
+		
+		var Wealth_Index_Base = new L.ImageOverlay("img/img1-white.png", Poverty_Bounds).addTo(map);
+		var PPI_Base = new L.ImageOverlay("img/img2-white.png", Poverty_Bounds);		
+		var INCPOV_Base = new L.ImageOverlay("img/img3-white.png", Poverty_Bounds);
 		
 		var magnifyingGlass1 = L.magnifyingGlass({
 		  layers: [Wealth_Index],
-		  zoomOffset: 0,
+		  fixedZoom: 8,
 		  radius: 75
 		}).addTo(map);
 		
 		var magnifyingGlass2 = L.magnifyingGlass({
 		  layers: [PPI],
-		  zoomOffset: 0,
+		  fixedZoom: 8,
 		  radius: 75
 		});		
 		
 		var magnifyingGlass3 = L.magnifyingGlass({
 		  layers: [INCPOV],
-		  zoomOffset: 0,
+		  fixedZoom: 8,
 		  radius: 75
 		});		
 		
 		$('#Btn1').click(function(){
 			map.removeLayer(magnifyingGlass2);
 			map.addLayer(magnifyingGlass1);
-			map.removeLayer(magnifyingGlass3)});	
+			Wealth_Index_Base.addTo(map);
+			map.removeLayer(magnifyingGlass3);
+			map.removeLayer(PPI_Base);
+			map.removeLayer(INCPOV_Base)});			
 		
 		
 		$('#Btn2').click(function(){
 			map.removeLayer(magnifyingGlass1);
 			map.addLayer(magnifyingGlass2);
-			map.removeLayer(magnifyingGlass3)});
-
+			map.removeLayer(magnifyingGlass3);
+			map.addLayer(PPI_Base);
+			map.removeLayer(Wealth_Index_Base);
+			map.removeLayer(INCPOV_Base)});
 
 		$('#Btn3').click(function(){
 			map.removeLayer(magnifyingGlass1);
 			map.addLayer(magnifyingGlass3);
-			map.removeLayer(magnifyingGlass2)});
-		
+			map.removeLayer(magnifyingGlass2);
+			map.addLayer(INCPOV_Base);
+			map.removeLayer(Wealth_Index_Base);
+			map.removeLayer(PPI_Base)});		
 
 			
 		
@@ -280,7 +295,30 @@
 </div>
 </div>
 <div><br/><br/><br/></div>
+<h1> National Comparison </h1></br></br>
+<div id="rightcolumn">
+	<div class="slider">
 
+		<div class="slider responsive">
+
+	<div class="left image">
+
+		<img src="img/National_Admin3_5.png"/>
+
+	</div>
+
+	<div class="right image">
+
+    <img src="img/Wealth_Index_Swipe.png"/>
+
+  </div>
+
+</div>
+
+</div>
+</div>
+</div>
+<div><br/><br/><br/></div>
 
 
 <h1></br></br>Bangladesh Sub-District Wealth Index </h1></br>
@@ -379,7 +417,7 @@
 
 		// Update the control based on feature properties passed
 		info.update = function (props) {
-			this._div.innerHTML = '<h4>Poverty Estimate</h4><p>' +  (props ?
+			this._div.innerHTML = '<h4>DHS Wealth Index Value</h4><p>' +  (props ?
 				'Upazila ' + props.UPAZILA + '</b><br /><p><b>' + props.preds3a + '</b>'
 				: 'Hover over an Upazila Sub-district');
 		};
@@ -420,6 +458,6 @@
 </body>
 <br/><br/><br/>
 <script>
-$('.slider').slider({ instructionText:"Drag!" });
+$('.slider').slider({ instructionText:"" });
 </script>
 </html>
