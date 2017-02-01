@@ -2,50 +2,44 @@
 <head>
   <title>Visualisation Concepts</title>
   <meta charset="utf-8" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.css"/>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.3/leaflet.js"></script>
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
   <script src="js/jquery-3.1.1.min.js"></script>
   <script src="js/leaflet.ajax.min.js"></script>
   <link rel="stylesheet" href="css/L.Control.ZoomMin.css" media="screen">
   <script src="js/L.Control.ZoomMin.js"></script>
-  <link rel="stylesheet" href="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/master/leaflet.magnifyingglass.css" />
-  <script src="https://cdn.rawgit.com/bbecquet/Leaflet.MagnifyingGlass/leaflet-0.7.2/leaflet.magnifyingglass.js"></script>
+  <link rel="stylesheet" href="css/leaflet.magnifyingglass.css" />
+  <script src="js/leaflet.magnifyingglass.js"></script>
   <link rel="stylesheet" type="text/css" href="css/imgslider.min.css">
   <script type="text/javascript" src="js/imgslider.min.js"></script>
   <link rel="stylesheet" href="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.css">
   <script src="https://unpkg.com/leaflet-easybutton@2.0.0/src/easy-button.js"></script>
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+
   
 	<style>
 
-	/* Map Styles and Dimensions */ 
-
 				
 	#map {
-	margin: 0 auto;
-	text-align: left;
 	width: 600px;
 	height: 620px;
+	margin: 0 auto;
 	}
+	#leftcolumn {
+	margin: 0 auto}
 	
 	.slider{
 	width: 500px;
-	height:500px;
+	height:600px;
 	margin: 0 auto}
 	
 
 	#Nepal {
 	margin: 0 auto;
 	text-align: left;
-	width: 800px;
-	height: 500px;
+	width: 600px;
+	height: 600px;
 	}
 	
-
-	
-	
-	
-	/* Remove border of map */
 	
 	.leaflet-container {
 		background-color:rgba(255,0,0,0.0);
@@ -64,6 +58,7 @@
 		background: rgba(255,255,255,0.8);
 		/* box-shadow: 0 0 15px rgba(0,0,0,0.2); */
 		border-radius: 5px;
+		text-align: right
 	}
 	.info h4 {
 		margin: 0 0 5px;
@@ -84,28 +79,36 @@
 	}
 	
 	
-	.my-custom-control {
-  background-image: url('img/Wealth_Index_Legend.png');
-  width:200px; /* you will likely need to specify image width and height here */
-  height:100px;
-}
-
+	.Wealth_Index_Legend {
+		  background-image: url('img/Mag_Legend.png');
+		  width:183px; 
+		  height:126px;
+		}
+		
+		
+	.District_Legend {
+	  background-image: url('img/Sub_district.png');
+	  width:94px; 
+	  height:118px;
+	}
+	
+		
 	.btnStyle {
     cursor:pointer;
     border-radius: 0px;
 	background-color: #fffff;  
 	border: 0px solid #00000; 
 	color: #00000;
-	 padding: 4px;
-	 margin-top: 4px;
-	 margin-bottom: 4px;
-	 width:28%;
+	padding: 4px;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	width:200px;
 	font-family: Sans-Serif;
 	}
-	
-	.centered {
-	margin: 0 auto}
 
+	
+	
+	
 </style>
 
 
@@ -113,19 +116,16 @@
 
 
 <body>
-<h1>
-Bangladesh - Magnifying Glass
-</h1>
-<div class="span9" style="height:100%">
+<div id="wrapper">
+<div id="leftcolumn">
 			<div id="map"></div>
-			<div id="centered" style="width:600px;">
-            <input type="button" id="Btn1" value="Wealth index" onclick="" class="btnStyle span3" />
-            <input type="button" id="Btn2" value="PPI" onclick="" class="btnStyle span3" /> 
-            <input type="button" id="Btn3" value="Income" onclick="" class="btnStyle span3" />
+            <input type="button" id="Btn1" value="Wealth Index"  class="btnStyle span3" />
+            <input type="button" id="Btn2" value="PPI"  class="btnStyle span3" /> 
+            <input type="button" id="Btn3" value="Income"  class="btnStyle span3" />
 
 <script>
 
-		// initialize the map + minimum zoom if just focusing on one country
+
 		var map = L.map('map',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([23.814602, 90.413961], 12);
 		map.dragging.disable()
 		// Add zoom to extent button (see stylesheet and .js file in header)
@@ -144,7 +144,7 @@ Bangladesh - Magnifying Glass
 												<!-- ,smoothFactor: 0.1}).addTo(map);  -->
 												
 												
-		// Adding GeoTiffs
+		// Adding Images
 		var	Poverty_Bounds = new L.LatLngBounds(
 			new L.LatLng(26.64163201,88.00822613),
 			new L.LatLng(20.73330104,92.67489093));
@@ -158,29 +158,57 @@ Bangladesh - Magnifying Glass
 		var CIESIN = new L.ImageOverlay("img/CIESIN_Raster_PNG_White.png", CIESIN_Bounds).addTo(map);
 		var Wealth_Index = new L.ImageOverlay("img/Wealth_Index.png", Poverty_Bounds);
 		var PPI = new L.ImageOverlay("img/PPI.png", Poverty_Bounds);		
+		var INCPOV = new L.ImageOverlay("img/INCPOV.png", Poverty_Bounds);
 		
-		
-		var magnifyingGlass = L.magnifyingGlass({
+		var magnifyingGlass1 = L.magnifyingGlass({
 		  layers: [Wealth_Index],
 		  zoomOffset: 0,
 		  radius: 75
 		}).addTo(map);
 		
+		var magnifyingGlass2 = L.magnifyingGlass({
+		  layers: [PPI],
+		  zoomOffset: 0,
+		  radius: 75
+		});		
+		
+		var magnifyingGlass3 = L.magnifyingGlass({
+		  layers: [INCPOV],
+		  zoomOffset: 0,
+		  radius: 75
+		});		
+		
+		$('#Btn1').click(function(){
+			map.removeLayer(magnifyingGlass2);
+			map.addLayer(magnifyingGlass1);
+			map.removeLayer(magnifyingGlass3);
+			map.addControl(new Wealth_Index_Legend());
+			map.removeControl(PPI_Legend);
+			map.removeControl(INCPOV_Legend)});			
 		
 		
-		//Legends
-		<!-- var Legend2 = L.control({position: 'bottomleft'}); -->
-		<!-- Legend2.onAdd = function(map) { -->
-			<!-- var div = L.DomUtil.create('div'); -->
-            <!-- div.innerHTML += "<iframe src='"+ "img/Wealth_Index_Legend.png" +"' frameborder='0'></iframe>" -->
-        <!-- return div; -->
-        <!-- }; -->
+		$('#Btn2').click(function(){
+			map.removeLayer(magnifyingGlass1);
+			map.addLayer(magnifyingGlass2);
+			map.removeLayer(magnifyingGlass3);
+			map.addControl(new PPI_Legend());
+			map.removeControl(Wealth_Index_Legend);
+			map.removeControl(INCPOV_Legend)});
+
+		$('#Btn3').click(function(){
+			map.removeLayer(magnifyingGlass1);
+			map.addLayer(magnifyingGlass3);
+			map.removeLayer(magnifyingGlass2);
+			map.addControl(INCPOV_Legend);
+			map.removeControl(Wealth_Index_Legend);
+			map.removeControl(PPI_Legend)});			
+
+			
 		
-		<!-- Legend2.addTo(map); -->
 		
-		
-		
-	var MyControl = L.Control.extend({
+	//Legends 
+	
+	var Wealth_Index_Legend = L.Control.extend({
     options: {
       position: 'topright'
     },
@@ -188,91 +216,120 @@ Bangladesh - Magnifying Glass
     onAdd: function (map) {
       // create the control container with a particular class name
       // ** you can add the image to the div as a background image using css
-      var container = L.DomUtil.create('div', 'my-custom-control');
+      var container = L.DomUtil.create('div', 'Wealth_Index_Legend');
 
       // ... initialize other DOM elements, add listeners, etc.
       return container;
     }
 	});
 
-	map.addControl(new MyControl());
+	map.addControl(new Wealth_Index_Legend());
+	
+	var PPI_Legend = L.Control.extend({
+    options: {
+      position: 'topright'
+    },
+
+    onAdd: function (map) {
+      // create the control container with a particular class name
+      // ** you can add the image to the div as a background image using css
+      var container = L.DomUtil.create('div', 'PPI_Legend');
+
+      // ... initialize other DOM elements, add listeners, etc.
+      return container;
+    }
+	});
+
+	var INCPOV_Legend = L.Control.extend({
+    options: {
+      position: 'topright'
+    },
+
+    onAdd: function (map) {
+      // create the control container with a particular class name
+      // ** you can add the image to the div as a background image using css
+      var container = L.DomUtil.create('div', 'INCPOV_Legend');
+
+      // ... initialize other DOM elements, add listeners, etc.
+      return container;
+    }
+	});
+
+
 		
 </script>
 </div>
-</div>
+<div id="rightcolumn">
+	<div class="slider">
 
+		<div class="slider responsive">
 
+	<div class="left image">
 
+		<img src="img/Dhaka_output11.png"/>
 
+	</div>
 
-<br/><br/><br/>
+	<div class="right image">
 
-<h1> Dhaka - Before and After </h1>
-
-<div class="slider">
-
- <div class="slider responsive">
-
-  <div class="left image">
-
-    <img src="img/Dakar_without.png"/>
-
-  </div>
-
-  <div class="right image">
-
-    <img src="img/Dakar_PPI.png"/>
+    <img src="img/Dhaka.png"/>
 
   </div>
 
 </div>
 
 </div>
-
+</div>
+</div>
 <div><br/><br/><br/></div>
 
 
 
-<h1> Nepal - Ilaka Food poverty </h1>
+<h1></br></br>Bangladesh Sub-District Wealth Index </h1>
 <div id="Nepal"><br/></div>
 <div>
 <script>
 
 		// initialize the Nepal + minimum zoom if just focusing on one country
-		var Nepal = L.map('Nepal',{minZoom: 7, maxZoom: 7,attributionControl: false,zoomControl: false, scrollWheelZoom:false}).setView([28.5, 84.1], 7);
+		var Nepal = L.map('Nepal',{minZoom: 7, attributionControl: false,scrollWheelZoom:false,zoomControl:false}).setView([23.83, 90.13], 7);
+		Nepal.addControl(new L.Control.ZoomMin())
 		
 		// Add zoom to extent button (see stylesheet and .js file in header)
 		<!-- Nepal.addControl(new L.Control.ZoomMin()) -->
 		
 		//Setting Maximum bounds for zooming and panning (Top left and bottom right from google Nepals)
-		var bounds = L.latLngBounds([[30.5, 79.81], [26.13, 88.34]]);
-		Nepal.setMaxBounds(bounds);
-		Nepal.on('drag', function() {
-			Nepal.panInsideBounds(bounds, { animate: false });
-		});
+		<!-- var bounds = L.latLngBounds([[30.5, 79.81], [26.13, 88.34]]); -->
+		<!-- Nepal.setMaxBounds(bounds); -->
+		<!-- Nepal.on('drag', function() { -->
+			<!-- Nepal.panInsideBounds(bounds, { animate: false }); -->
+		<!-- }); -->
 		
 		
 		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
-		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("data/Nepal_2.json",{style:style_Nepal,
+		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("data/Upazilla.json",{style:style_Nepal,
 												onEachFeature:onEachFeature,smoothFactor: 0}).addTo(Nepal); 
 		
 		// Define Colourscheme and Variable to Symbolise
-		function getColor_Nepal(P0) {
-			return P0 > 70 ? '#084594' :
-				   P0 > 60  ? '#2171b5' :
-				   P0 > 50  ? '#4292c6' :
-				   P0 > 40  ? '#6baed6' :
-				   P0 > 30   ? '#9ecae1' :
-				   P0 > 20   ? '#c6dbef' :
-				   P0 > 10   ? '#deebf7' :
-				   P0 > 0   ? '#d9d9d9' :
+		function getColor_Nepal(preds3a) {
+			return preds3a > 1.31 ? '#0000ff' :
+				   preds3a > 0.77  ? '#3661ff' :
+				   preds3a > 0.36  ? '#38acff' :
+				   preds3a > 0.09  ? '#00ffff' :
+				   preds3a > -0.09   ? '#91ffb4' :
+				   preds3a > -0.24   ? '#d2ff69' :
+				   preds3a > -0.37   ? '#ffff00' :
+				   preds3a > -0.54   ? '#ffb700' :
+				   preds3a > -0.76   ? '#ff6f00' :
+				   preds3a > -1.19   ? '#ff0000' :				   
 							  '#b2df8a';
 				   
 		}
+		
+		
 		// Define Style differences for when feature is hovered over
 		function style_Nepal(feature) {
 			return {
-				fillColor: getColor_Nepal(feature.properties.P0),
+				fillColor: getColor_Nepal(feature.properties.preds3a),
 				weight: 0,
 				opacity: 1,
 				color: 'white',
@@ -327,9 +384,9 @@ Bangladesh - Magnifying Glass
 
 		// Update the control based on feature properties passed
 		info.update = function (props) {
-			this._div.innerHTML = '<h4>Food Poverty Estimate</h4><p>' +  (props ?
-				'Ilaka ID ' + props.IlakaID + '</b><br /><p><b>' + props.P0 + '% Prevalence</b>'
-				: 'Hover over an Ilaka');
+			this._div.innerHTML = '<h4>Poverty Estimate</h4><p>' +  (props ?
+				'Upazila ' + props.UPAZILA + '</b><br /><p><b>' + props.preds3a + '</b>'
+				: 'Hover over an Upazila Sub-district');
 		};
 
 		info.addTo(Nepal);
@@ -337,27 +394,72 @@ Bangladesh - Magnifying Glass
 		
 		
 		
-		var legend = L.control({position: 'bottomleft'});
+		<!-- var legend = L.control({position: 'bottomleft'}); -->
 
-		legend.onAdd = function (Nepal) {
+		<!-- legend.onAdd = function (Nepal) { -->
 
-		var div = L.DomUtil.create('div', 'info legend'),
-			grades = [10, 20, 30, 40, 50, 60, 70],
-			labels = [];
+		<!-- var div = L.DomUtil.create('div', 'info legend'), -->
+			<!-- grades = ["#ff0000", -->
+					<!-- "#ff6f00" , -->
+					<!-- "#ffb700", -->
+					<!-- "#ffff00" , -->
+					<!-- "#d2ff69" , -->
+					<!-- "#91ffb4" , -->
+					<!-- "00ffff" ,  -->
+					<!-- "#38acff" ,  -->
+					<!-- "#3661ff"  , -->
+					<!-- "#0000ff"  ] -->
+		
+		
+		<!-- labels = ["-1.19    -    -0.76", -->
+		<!-- "-0.76    -    -0.54", -->
+		<!-- "-0.54    -    -0.37", -->
+		<!-- "-0.37    -    -0.24", -->
+		<!-- "-0.24    -    -0.09", -->
+		<!-- "-0.09    -    0.09", -->
+		<!-- "0.09    -    0.36", -->
+		<!-- "0.36    -    0.77", -->
+		<!-- "0.77    -    1.31", -->
+		<!-- "1.31    -    2"]; -->
 
-		// loop through our density intervals and generate a label with a colored square for each interval
-		for (var i = 0; i < grades.length; i++) {
-			div.innerHTML +=
-				'<i style="background:' + getColor_Nepal(grades[i] + 1) + '"></i> ' +
-				grades[i] + (grades[i + 1] ? '&ndash;' + grades[i + 1] + '%<br>' : '%+');
-		}
+	var District_Legend = L.Control.extend({
+    options: {
+      position: 'bottomleft'
+    },
 
-		return div;
-		};
+    onAdd: function (Nepal) {
+      // create the control container with a particular class name
+      // ** you can add the image to the div as a background image using css
+      var container = L.DomUtil.create('div', 'District_Legend');
 
-		legend.addTo(Nepal);
+      // ... initialize other DOM elements, add listeners, etc.
+      return container;
+	}
+	});
+	
+	Nepal.addControl(new District_Legend());
+	
+	<!-- District_Legend.addTo(Nepal); -->
+	
+	
+	<!-- var Wealth_Index_Legend = L.Control.extend({ -->
+    <!-- options: { -->
+      <!-- position: 'topright' -->
+    <!-- }, -->
 
+    <!-- onAdd: function (map) { -->
+      <!-- // create the control container with a particular class name -->
+      <!-- // ** you can add the image to the div as a background image using css -->
+      <!-- var container = L.DomUtil.create('div', 'Wealth_Index_Legend'); -->
 
+      <!-- // ... initialize other DOM elements, add listeners, etc. -->
+      <!-- return container; -->
+    <!-- } -->
+	<!-- }); -->
+
+	<!-- map.addControl(new Wealth_Index_Legend());		 -->
+		
+		
 </script>
 
 </div>
