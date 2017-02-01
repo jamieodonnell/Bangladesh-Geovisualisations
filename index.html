@@ -24,8 +24,7 @@
 	height: 620px;
 	margin: 0 auto;
 	}
-	#leftcolumn {
-	margin: 0 auto}
+
 	
 	.slider{
 	width: 500px;
@@ -104,6 +103,9 @@
 	margin-bottom: 4px;
 	width:200px;
 	font-family: Sans-Serif;
+	font-weight: 700;
+	margin:0 auto;
+    display:block;
 	}
 
 	
@@ -116,6 +118,7 @@
 
 
 <body>
+</br></br>
 <div id="wrapper">
 <div id="leftcolumn">
 			<div id="map"></div>
@@ -181,27 +184,20 @@
 		$('#Btn1').click(function(){
 			map.removeLayer(magnifyingGlass2);
 			map.addLayer(magnifyingGlass1);
-			map.removeLayer(magnifyingGlass3);
-			map.addControl(new Wealth_Index_Legend());
-			map.removeControl(PPI_Legend);
-			map.removeControl(INCPOV_Legend)});			
+			map.removeLayer(magnifyingGlass3)});	
 		
 		
 		$('#Btn2').click(function(){
 			map.removeLayer(magnifyingGlass1);
 			map.addLayer(magnifyingGlass2);
-			map.removeLayer(magnifyingGlass3);
-			map.addControl(new PPI_Legend());
-			map.removeControl(Wealth_Index_Legend);
-			map.removeControl(INCPOV_Legend)});
+			map.removeLayer(magnifyingGlass3)});
+
 
 		$('#Btn3').click(function(){
 			map.removeLayer(magnifyingGlass1);
 			map.addLayer(magnifyingGlass3);
-			map.removeLayer(magnifyingGlass2);
-			map.addControl(INCPOV_Legend);
-			map.removeControl(Wealth_Index_Legend);
-			map.removeControl(PPI_Legend)});			
+			map.removeLayer(magnifyingGlass2)});
+		
 
 			
 		
@@ -259,6 +255,8 @@
 		
 </script>
 </div>
+</br></br></br></br>
+<h1> Dhaka Region </h1></br></br>
 <div id="rightcolumn">
 	<div class="slider">
 
@@ -285,7 +283,7 @@
 
 
 
-<h1></br></br>Bangladesh Sub-District Wealth Index </h1>
+<h1></br></br>Bangladesh Sub-District Wealth Index </h1></br>
 <div id="Nepal"><br/></div>
 <div>
 <script>
@@ -294,16 +292,13 @@
 		var Nepal = L.map('Nepal',{minZoom: 7, attributionControl: false,scrollWheelZoom:false,zoomControl:false}).setView([23.83, 90.13], 7);
 		Nepal.addControl(new L.Control.ZoomMin())
 		
-		// Add zoom to extent button (see stylesheet and .js file in header)
-		<!-- Nepal.addControl(new L.Control.ZoomMin()) -->
-		
-		//Setting Maximum bounds for zooming and panning (Top left and bottom right from google Nepals)
-		<!-- var bounds = L.latLngBounds([[30.5, 79.81], [26.13, 88.34]]); -->
-		<!-- Nepal.setMaxBounds(bounds); -->
-		<!-- Nepal.on('drag', function() { -->
-			<!-- Nepal.panInsideBounds(bounds, { animate: false }); -->
-		<!-- }); -->
-		
+		var bounds2 = L.latLngBounds([[26.658387, 87.944284], [20.580493, 92.803854]]);
+		Nepal.setMaxBounds(bounds2);
+		Nepal.on('drag', function() {
+			Nepal.panInsideBounds(bounds2, { animate: false });
+		});
+			
+		Nepal.fitBounds(bounds2);
 		
 		//Load GeoJSON using Ajax Plugin (Chrome not allowing cross HTTP requests..)
 		var geojsonLayer_Nepal = new L.GeoJSON.AJAX("data/Upazilla.json",{style:style_Nepal,
@@ -392,35 +387,7 @@
 		info.addTo(Nepal);
 
 		
-		
-		
-		<!-- var legend = L.control({position: 'bottomleft'}); -->
 
-		<!-- legend.onAdd = function (Nepal) { -->
-
-		<!-- var div = L.DomUtil.create('div', 'info legend'), -->
-			<!-- grades = ["#ff0000", -->
-					<!-- "#ff6f00" , -->
-					<!-- "#ffb700", -->
-					<!-- "#ffff00" , -->
-					<!-- "#d2ff69" , -->
-					<!-- "#91ffb4" , -->
-					<!-- "00ffff" ,  -->
-					<!-- "#38acff" ,  -->
-					<!-- "#3661ff"  , -->
-					<!-- "#0000ff"  ] -->
-		
-		
-		<!-- labels = ["-1.19    -    -0.76", -->
-		<!-- "-0.76    -    -0.54", -->
-		<!-- "-0.54    -    -0.37", -->
-		<!-- "-0.37    -    -0.24", -->
-		<!-- "-0.24    -    -0.09", -->
-		<!-- "-0.09    -    0.09", -->
-		<!-- "0.09    -    0.36", -->
-		<!-- "0.36    -    0.77", -->
-		<!-- "0.77    -    1.31", -->
-		<!-- "1.31    -    2"]; -->
 
 	var District_Legend = L.Control.extend({
     options: {
@@ -439,25 +406,7 @@
 	
 	Nepal.addControl(new District_Legend());
 	
-	<!-- District_Legend.addTo(Nepal); -->
-	
-	
-	<!-- var Wealth_Index_Legend = L.Control.extend({ -->
-    <!-- options: { -->
-      <!-- position: 'topright' -->
-    <!-- }, -->
 
-    <!-- onAdd: function (map) { -->
-      <!-- // create the control container with a particular class name -->
-      <!-- // ** you can add the image to the div as a background image using css -->
-      <!-- var container = L.DomUtil.create('div', 'Wealth_Index_Legend'); -->
-
-      <!-- // ... initialize other DOM elements, add listeners, etc. -->
-      <!-- return container; -->
-    <!-- } -->
-	<!-- }); -->
-
-	<!-- map.addControl(new Wealth_Index_Legend());		 -->
 		
 		
 </script>
