@@ -108,9 +108,19 @@
 	margin:0 auto;
     display:block;
 	}
-
 	
+	#text {
+	text-align:justify;
+	font-family: Sans Serif;
+	width: 700px;
+	margin: 0 auto
 	
+	}
+	
+	#rightcolumn (
+	position:relative;
+	right:50%
+	font-family:sans serif)
 	
 </style>
 
@@ -120,7 +130,9 @@
 
 <body>
 
-<h1> Mapping poverty using mobile phone and satellite data </br>-</br> Bangladesh Data Visualisation </h1>
+<h1> Mapping poverty using mobile phone and satellite data </br>-</br> Bangladesh Data Visualisation </br></h1>
+
+<div id="text"><div id="inner_text"></br>This page allows you to visualise the Bangladesh poverty maps available on the WorldPop website. These maps were created using Bayesian model-based geostatistics in combination with high resolution gridded spatial covariates and aggregated mobile phone data applied to geolocated household survey data on poverty from the DHS wealth index, the Progress out of Poverty Index, and household income. Citation: Steele, J. E. et al. Mapping poverty using mobile phone and satellite data. J. R. Soc. Interface 14, 20160690 (2017). Online here: http://rsif.royalsocietypublishing.org/content/14/127/20160690</div>
 </br></br></br></br>
 <div id="leftcolumn">
 			<div id="map"></div>
@@ -270,8 +282,11 @@
 </script>
 </div>
 </br></br></br></br>
-<h1> Dhaka Region </h1></br></br>
+<h1> Resolution Comparisons </h1></br></br>
+
+Estimates for Bangladesh showing poverty based on the DHS wealth index predicted at the Upazila sub-district level, and predicted at fine-scale polygons created by estimating mobile phone tower coverage. Swipe to see the improved resolution in poverty estimates achieved by using mobile data and satellite data. </br></br>
 <div id="rightcolumn">
+</br></br>
 	<div class="slider">
 
 		<div class="slider responsive">
@@ -290,11 +305,11 @@
 
 </div>
 
-</div>
+
 </div>
 </div>
 <div><br/><br/><br/></div>
-<h1> National Comparison </h1></br></br>
+<h1> National </h1></br></br>
 <div id="rightcolumn">
 	<div class="slider">
 
@@ -316,15 +331,17 @@
 
 </div>
 </div>
-</div>
+
 <div><br/><br/><br/></div>
 <script>
 $('.slider').slider({ instructionText:"" });
 </script>
 
 <h1></br></br>Bangladesh Sub-District Wealth Index </h1></br>
+</br>Estimates for Bangladesh showing poverty based on the DHS wealth index predicted at the Upazila sub-district level. Hover over a polygon to see the Upazila name and associated predicted mean wealth index score.
+</br></br></br>
 <div id="Nepal"><br/></div>
-<div>
+</br><div>
 <script>
 
 		// initialize the Nepal + minimum zoom if just focusing on one country
